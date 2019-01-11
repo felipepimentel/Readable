@@ -9,6 +9,9 @@ export const ADD_POST = 'ADD_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const UPDATE_POST = 'UPDATE_POST';
 export const ADD_COMMENT_TO_POST = 'ADD_COMMENT_TO_POST'
+export const ADD_VOTE = 'ADD_VOTE'
+export const REMOVE_VOTE = 'REMOVE_VOTE'
+export const REMOVE_COMMENT_TO_POST = 'REMOVE_COMMENT_TO_POST'
 
 export function receivePosts(posts) {
   return {
@@ -45,6 +48,13 @@ export function addCommentToPostAction(id){
   }
 }
 
+export function removeCommentToPostAction(id){ 
+  return { 
+    type: REMOVE_COMMENT_TO_POST,
+    id
+  }
+}
+
 export function receivePostsByCategory(posts) {
   return {
     type: RECEIVE_POSTS_BY_CATEGORY,
@@ -77,7 +87,7 @@ export function handleAddPost(title, post, category, id) {
   }
 }
 
-export function handleUpdatePost(title, post, category, id) {
+export function handleUpdatePost(title, post, category, id, voteScore) {
   return (dispatch) => {
     return updatePost({
       id,
@@ -85,7 +95,7 @@ export function handleUpdatePost(title, post, category, id) {
       timestamp: Date.now(),
       body: post,
       category,
-      voteScore: 1,
+      voteScore: voteScore ? voteScore : 1,
       deleted: false,
       author: 'Felipe Pimentel'
     }).then((post) => {

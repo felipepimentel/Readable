@@ -53,12 +53,13 @@ class PostPage extends Component {
 
 function mapStateToProps({ posts, comments }, props) {
     const { id } = props.match.params
-    console.log(id, 'parametro')
-    console.log(posts, 'posts')
     return {
         id,
         post: posts[id],
-        commentIds: comments ? Object.keys(comments).sort((a, b, ) => comments[b].timestamp - comments[a].timestamp) : [],
+        commentIds: comments ? (
+            Object.keys(comments).sort((a, b, ) => comments[b].timestamp - comments[a].timestamp)
+            .filter(commentId => !comments[commentId].deleted)
+        ) : [],
         comments
         // post: !tweets[id]
         //     ? []

@@ -1,5 +1,14 @@
 import update from 'react-addons-update';
-import { RECEIVE_POSTS, RECEIVE_POSTS_BY_CATEGORY, SORT_POST, ADD_POST, DELETE_POST, UPDATE_POST, ADD_COMMENT_TO_POST } from './../actions/posts';
+import {
+    RECEIVE_POSTS,
+    RECEIVE_POSTS_BY_CATEGORY,
+    SORT_POST,
+    ADD_POST,
+    DELETE_POST,
+    UPDATE_POST,
+    ADD_COMMENT_TO_POST,
+    REMOVE_COMMENT_TO_POST
+} from './../actions/posts';
 
 
 export default function posts(state = {}, action) {
@@ -34,13 +43,17 @@ export default function posts(state = {}, action) {
             newState[action.post.id].title = action.post.title;
             newState[action.post.id].body = action.post.body;
             newState[action.post.id].category = action.post.category;
+            newState[action.post.id].voteScore = action.post.voteScore;
 
             return { ...newState };
         case ADD_COMMENT_TO_POST:
             const newStateToAddComment = { ...state };
             newStateToAddComment[action.id].commentCount = newStateToAddComment[action.id].commentCount + 1;
-
             return { ...newStateToAddComment };
+        case REMOVE_COMMENT_TO_POST:
+            const newStateToRemoveComment = { ...state };
+            newStateToRemoveComment[action.id].commentCount = newStateToRemoveComment[action.id].commentCount - 1;
+            return { ...newStateToRemoveComment };
         default:
             return state
     }
