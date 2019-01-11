@@ -13,14 +13,24 @@ export default function comments(state = {}, action) {
                 [action.comment.id]: action.comment
             }
         case DELETE_COMMENT:
-            const newStateToUpdate = { ...state };
-            newStateToUpdate[action.id].deleted = true;
-            return { ...newStateToUpdate };
+            return {
+                ...state,
+                [action.id]: {
+                    ...state[action.id],
+                    deleted: true
+                }
+            }
+
         case UPDATE_COMMENT:
-            const newState = { ...state };
-            newState[action.comment.id].body = action.comment.body;
-            newState[action.comment.id].voteScore = action.comment.voteScore;
-            return { ...newState };
+            return {
+                ...state,
+                [action.comment.id]: {
+                    ...state[action.comment.id],
+                    body: action.comment.body,
+                    voteScore: action.comment.voteScore
+                }
+            }
+
         default:
             return state
     }

@@ -26,26 +26,43 @@ export default function posts(state = {}, action) {
                 [action.post.id]: action.post
             }
         case DELETE_POST:
-            const newStateToUpdate = { ...state };
-            newStateToUpdate[action.id].deleted = true;
-
-            return { ...newStateToUpdate };
+            return {
+                ...state,
+                [action.id]:{
+                    ...state[action.id],
+                    deleted: true
+                }
+            }
         case UPDATE_POST:
-            const newState = { ...state };
-            newState[action.post.id].title = action.post.title;
-            newState[action.post.id].body = action.post.body;
-            newState[action.post.id].category = action.post.category;
-            newState[action.post.id].voteScore = action.post.voteScore;
-
-            return { ...newState };
+            return { 
+                ...state,
+                [action.post.id]: {
+                    ...state[action.post.id],
+                    title: action.post.title,
+                    body: action.post.body,
+                    category: action.post.category,
+                    voteScore: action.post.voteScore
+                }
+            } 
+            
         case ADD_COMMENT_TO_POST:
-            const newStateToAddComment = { ...state };
-            newStateToAddComment[action.id].commentCount = newStateToAddComment[action.id].commentCount + 1;
-            return { ...newStateToAddComment };
+            return {
+                ...state,
+                [action.id]: {
+                    ...state[action.id],
+                    commentCount: state[action.id].commentCount + 1
+                }
+            }
+
         case REMOVE_COMMENT_TO_POST:
-            const newStateToRemoveComment = { ...state };
-            newStateToRemoveComment[action.id].commentCount = newStateToRemoveComment[action.id].commentCount - 1;
-            return { ...newStateToRemoveComment };
+        return {
+            ...state,
+            [action.id]: {
+                ...state[action.id],
+                commentCount: state[action.id].commentCount - 1
+            }
+        }
+
         default:
             return state
     }
