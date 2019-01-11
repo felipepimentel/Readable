@@ -1,0 +1,42 @@
+import React, { Component, Fragment } from 'react'
+import LoadingBar from 'react-redux-loading'
+import LayoutDefault from './Layout/LayoutDefault'
+import { withRouter, Switch, Route } from 'react-router-dom'
+import NotFound from './../views/NotFound'
+import Home from './../views/Home'
+import { PostPage } from './../views/PostPage'
+import { handleInitialData } from '../actions/shared'
+import { connect } from 'react-redux'
+import './App.css';
+
+class App extends Component {
+  componentDidMount() {
+    this.props.dispatch(handleInitialData())
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <LoadingBar />
+        {this.props.loading === true
+          ? null
+          :
+          <LayoutDefault>
+            <Switch location={this.props.location}>
+              <Route exact path='/' component={Home} />
+              <Route path='/post/:id' component={PostPage} />
+              <Route path='/new-post' component={PostPage} />
+              <Route component={NotFound} />
+            </Switch>
+          </LayoutDefault>}
+      </Fragment>
+    );
+  }
+}
+
+function mapStateToProps( { posts, categories }) {
+  return {
+    loading:  posts === null || categories === null
+  }
+}
+export default withRouter(connect(mapStateToProps)(App));
