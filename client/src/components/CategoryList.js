@@ -35,12 +35,15 @@ class CategoryList extends Component {
     }
 
     render() {
+        const { selectedCategory } = this.props
+        
         return (
             <div>
                 <label>{this.label} </label>
                 <Select
                     showSearch
                     allowClear
+                    defaultValue={ selectedCategory ? selectedCategory : undefined }
                     style={{ width: 200 }}
                     placeholder="None"
                     optionFilterProp="children"
@@ -50,7 +53,7 @@ class CategoryList extends Component {
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
                     {this.props.categories.map(category => (
-                        <Option key={category} id={category}>{category}</Option>
+                        <Option key={category} value={category} id={category}>{category}</Option>
                     ))}
                 </Select>
             </div>
@@ -58,9 +61,10 @@ class CategoryList extends Component {
     }
 }
 
-function mapStateToProps({ posts, categories }) {
+function mapStateToProps({ posts, categories }, props) {
     return {
-        categories: Object.keys(categories)
+        categories: Object.keys(categories),
+        selectedCategory: props.id
     }
 }
 export default connect(mapStateToProps)(CategoryList)

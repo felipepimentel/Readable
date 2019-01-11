@@ -15,8 +15,10 @@ class PostList extends Component {
 }
 
 function mapStateToProps({ posts }) {
+    console.log(posts)
     return {
         postIds: Object.keys(posts)
+            .filter(id => !posts[id].deleted)
             .sort((a, b) => posts[b].timestamp - posts[a].timestamp)
     }
 }

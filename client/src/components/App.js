@@ -4,11 +4,12 @@ import LayoutDefault from './Layout/LayoutDefault'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import NotFound from './../views/NotFound'
 import Home from './../views/Home'
-import { PostPage } from './../views/PostPage'
+import PostPage  from './../views/PostPage'
 import { handleInitialData } from '../actions/shared'
 import { connect } from 'react-redux'
 import './App.css';
 import NewPostPage from './../views/NewPostPage';
+import categories from './../reducers/categories';
 
 class App extends Component {
   componentDidMount() {
@@ -19,7 +20,7 @@ class App extends Component {
     return (
       <Fragment>
         <LoadingBar />
-        {this.props.loading === true
+        {this.props.loadingData === true
           ? null
           :
           <LayoutDefault>
@@ -38,7 +39,7 @@ class App extends Component {
 
 function mapStateToProps( { posts, categories }) {
   return {
-    loading:  posts === null || categories === null
+    loadingData:  !posts || !categories
   }
 }
 export default withRouter(connect(mapStateToProps)(App));

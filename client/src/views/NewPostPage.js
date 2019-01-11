@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { handleAddPost } from '../actions/posts';
+import { handleAddPost, handleUpdatePost } from '../actions/posts';
 import { Row, Col } from 'antd';
 import CategoryList from '../components/CategoryList';
+import { createUUID } from './../utils/helpers';
 
 class NewPostPage extends Component {
   state = {
@@ -12,6 +13,36 @@ class NewPostPage extends Component {
     category: null,
     toHome: false,
   }
+
+  constructor(props) {
+    super(props)
+    const { post } = props
+    if (post)
+      this.state = {
+        title: post.title,
+        text: post.body,
+        category: post.category,
+        toHome: false
+      }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.post !== this.props.post) {
+      const { post, id } = nextProps
+      this.setState(() => ({
+        id: id,
+        title: post.title,
+        text: post.body,
+        category: post.category,
+        toHome: false
+      }))
+    }
+  }
+
+  changePost = function () {
+    console.log('ola')
+  }
+
   handleChange = (e) => {
     const text = e.target.value
     this.setState(() => ({
@@ -34,15 +65,23 @@ class NewPostPage extends Component {
     e.preventDefault()
 
     const { text, title, category } = this.state
-    const { dispatch, id } = this.props
+    const { dispatch } = this.props
+    let { id } = this.props
+    const isNew = true
 
-    dispatch(handleAddPost(title, text, category, id))
+    if (isNew)
+      id = createUUID()
+
+    if (isNew)
+      dispatch(handleAddPost(title, text, category, id))
+    else 
+      dispatch(handleUpdatePost(title, text, category, id))
 
     this.setState(() => ({
       title: '',
       text: '',
       category: null,
-      toHome: id ? false : true,
+      toHome: true
     }))
   }
   render() {
@@ -58,7 +97,7 @@ class NewPostPage extends Component {
         <form className='new-tweet' onSubmit={this.handleSubmit}>
           <Row>
             <Col>
-              <input placeholder="Title?" value={title} onChange={this.handleChangeTitle}/>
+              <input placeholder="Title?" value={title} onChange={this.handleChangeTitle} />
             </Col>
           </Row>
           <Row>
@@ -74,7 +113,7 @@ class NewPostPage extends Component {
           </Row>
           <Row>
             <Col>
-              <CategoryList label='Category' id={category} onChange={this.handleChangeCategory}/>
+              <CategoryList label='Category' id={category} onChange={this.handleChangeCategory} />
             </Col>
           </Row>
 
@@ -90,4 +129,11 @@ class NewPostPage extends Component {
   }
 }
 
-export default connect()(NewPostPage)
+function mapStateToProps({ posts, cagtegories }, props) {
+  const { id } = props.match.params
+  return {
+    id: id,
+    post: id ? posts[id] : {}
+  }
+}
+export default connect(mapStateToProps)(NewPostPage)
