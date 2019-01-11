@@ -1,8 +1,6 @@
-import update from 'react-addons-update';
 import {
     RECEIVE_POSTS,
     RECEIVE_POSTS_BY_CATEGORY,
-    SORT_POST,
     ADD_POST,
     DELETE_POST,
     UPDATE_POST,
@@ -27,14 +25,8 @@ export default function posts(state = {}, action) {
                 ...state,
                 [action.post.id]: action.post
             }
-        case SORT_POST:
-            return {
-                ...state
-                // actions.posts
-            }
         case DELETE_POST:
             const newStateToUpdate = { ...state };
-            console.log(newStateToUpdate[action.id], 'meu objeto')
             newStateToUpdate[action.id].deleted = true;
 
             return { ...newStateToUpdate };

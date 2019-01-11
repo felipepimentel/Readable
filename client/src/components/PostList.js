@@ -14,12 +14,12 @@ class PostList extends Component {
     }
 }
 
-function mapStateToProps({ posts }) {
-    console.log(posts)
+function mapStateToProps({ posts, settings }) {
+    console.log(settings.sortBy, 'settings')
     return {
         postIds: Object.keys(posts)
             .filter(id => !posts[id].deleted)
-            .sort((a, b) => posts[b].timestamp - posts[a].timestamp)
+            .sort((a, b) => settings.sortBy == 1 ?  (posts[b].voteScore - posts[a].voteScore) : (posts[b].timestamp - posts[a].timestamp) )
     }
 }
 export default connect(mapStateToProps)(PostList)
