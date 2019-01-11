@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Select } from 'antd';
-import { handleFilterPostsByCategory } from '../actions/posts';
+import { withRouter } from 'react-router-dom';
 const { Option } = Select
 
 
@@ -22,7 +22,9 @@ class CategoryList extends Component {
         if (onChange)
             onChange(value)
         else {
-            dispatch(handleFilterPostsByCategory(value))
+            // dispatch(handleFilterPostsByCategory(value))
+            this.props.history.push('/' + (value ? value : ''))
+            // store.dispatch(push('/' + (value ? value : '')))
         }
     }
 
@@ -36,14 +38,14 @@ class CategoryList extends Component {
 
     render() {
         const { selectedCategory } = this.props
-        
+
         return (
             <div>
                 <label>{this.label} </label>
                 <Select
                     showSearch
                     allowClear
-                    defaultValue={ selectedCategory ? selectedCategory : undefined }
+                    defaultValue={selectedCategory ? selectedCategory : undefined}
                     style={{ width: 200 }}
                     placeholder="None"
                     optionFilterProp="children"
@@ -67,4 +69,4 @@ function mapStateToProps({ posts, categories }, props) {
         selectedCategory: props.id
     }
 }
-export default connect(mapStateToProps)(CategoryList)
+export default withRouter(connect(mapStateToProps)(CategoryList))

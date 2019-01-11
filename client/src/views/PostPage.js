@@ -11,7 +11,7 @@ import { handleDeletePost } from '../actions/posts';
 import NotFound from './NotFound';
 
 class PostPage extends Component {
-    constructor(props) { 
+    constructor(props) {
         super(props)
         this.handleDeleteButton = this.handleDeleteButton.bind(this)
     }
@@ -27,24 +27,24 @@ class PostPage extends Component {
         dispatch(handleDeletePost(id))
     }
     render() {
-        const { id, comments, commentIds, post, category } = this.props
+        const { id, commentIds, post, category } = this.props
 
-            
-        if(!post || post.deleted){
+        if (!post || post.deleted) {
             return <Redirect to='/' />
         }
 
-        if( post.category !== category )
+        if (post.category !== category) {
             return <NotFound />
-            
+        }
+
         return (
             <Fragment>
                 <Button type="danger" onClick={this.handleDeleteButton}>Delete Post</Button>
                 <PostDetail id={id} />
 
-                <NewComment parentId={id}/>
+                <NewComment parentId={id} />
                 <center> <h1>Comments</h1> </center>
-                
+
                 <div>
                     {!commentIds ? null : commentIds.map((commentId) => (
                         <CommentDetail key={commentId} id={commentId} />
@@ -63,7 +63,7 @@ function mapStateToProps({ posts, comments }, props) {
         post: posts[id],
         commentIds: comments ? (
             Object.keys(comments).sort((a, b, ) => comments[b].timestamp - comments[a].timestamp)
-            .filter(commentId => !comments[commentId].deleted)
+                .filter(commentId => !comments[commentId].deleted)
         ) : [],
         comments
         // post: !tweets[id]

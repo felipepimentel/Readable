@@ -27,6 +27,7 @@ class App extends Component {
               <Route path='/edit-post/:id' component={NewPostPage} />
               <Route path='/new-post' component={NewPostPage} />
               <Route path='/:category/:id' component={PostPage} />
+              <Route path='/:category' component={Home} />
               <Route component={NotFound} />
             </Switch>
           </LayoutDefault>}
