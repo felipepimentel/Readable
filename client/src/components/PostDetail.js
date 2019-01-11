@@ -42,7 +42,7 @@ class PostDetail extends Component {
 
         return (
 
-            <Card style={{ marginTop: 16 }} loading={false} title={<Link to={`/post/${id}`}>{this.props.post.title}</Link>} extra={<Link to={`/edit-post/${id}`}>Editar</Link>}>
+            <Card style={{ marginTop: 16 }} loading={false} title={<Link to={`/${this.props.post.category}/${id}`}>{this.props.post.title}</Link>} extra={<Link to={`/edit-post/${id}`}>Editar</Link>}>
                 <p>
                     <label>Author:</label> {this.props.post.author}
                 </p>

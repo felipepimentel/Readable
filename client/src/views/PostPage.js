@@ -8,6 +8,7 @@ import CommentDetail from './../components/CommentDetail';
 import NewComment from '../components/NewComment';
 import { Redirect } from 'react-router-dom'
 import { handleDeletePost } from '../actions/posts';
+import NotFound from './NotFound';
 
 class PostPage extends Component {
     constructor(props) { 
@@ -26,12 +27,15 @@ class PostPage extends Component {
         dispatch(handleDeletePost(id))
     }
     render() {
-        const { id, comments, commentIds, post } = this.props
+        const { id, comments, commentIds, post, category } = this.props
 
             
         if(!post || post.deleted){
             return <Redirect to='/' />
         }
+
+        if( post.category !== category )
+            return <NotFound />
             
         return (
             <Fragment>
@@ -52,9 +56,10 @@ class PostPage extends Component {
 }
 
 function mapStateToProps({ posts, comments }, props) {
-    const { id } = props.match.params
+    const { id, category } = props.match.params
     return {
         id,
+        category,
         post: posts[id],
         commentIds: comments ? (
             Object.keys(comments).sort((a, b, ) => comments[b].timestamp - comments[a].timestamp)

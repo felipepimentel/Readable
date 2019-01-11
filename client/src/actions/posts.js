@@ -1,5 +1,4 @@
 import { getPostsByCategory, getPosts, updatePost } from "../utils/api";
-import { hideLoading, showLoading } from 'react-redux-loading';
 import { savePost, deletePost } from './../utils/api';
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
@@ -106,19 +105,16 @@ export function handleDeletePost(id) {
 
 export function handleFilterPostsByCategory(category) {
   return (dispatch) => {
-    dispatch(showLoading())
     if (!category) {
       return getPosts()
         .then(posts => {
           dispatch(receivePosts(posts))
-          dispatch(hideLoading())
         })
     }
 
     return getPostsByCategory(category)
       .then(posts => {
         dispatch(receivePostsByCategory(posts))
-        dispatch(hideLoading())
       })
   }
 }

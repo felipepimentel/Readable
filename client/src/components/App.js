@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import LoadingBar from 'react-redux-loading'
 import LayoutDefault from './Layout/LayoutDefault'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import NotFound from './../views/NotFound'
@@ -9,26 +8,25 @@ import { handleInitialData } from '../actions/shared'
 import { connect } from 'react-redux'
 import './App.css';
 import NewPostPage from './../views/NewPostPage';
-import categories from './../reducers/categories';
+import settings from './../reducers/settings';
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(handleInitialData())
+    this.props.initApp()
   }
-
+  
   render() {
     return (
       <Fragment>
-        <LoadingBar />
         {this.props.loadingData === true
-          ? null
+          ? <h1>Loading...</h1>
           :
           <LayoutDefault>
             <Switch location={this.props.location}>
               <Route exact path='/' component={Home} />
-              <Route path='/post/:id' component={PostPage} />
               <Route path='/edit-post/:id' component={NewPostPage} />
               <Route path='/new-post' component={NewPostPage} />
+              <Route path='/:category/:id' component={PostPage} />
               <Route component={NotFound} />
             </Switch>
           </LayoutDefault>}
@@ -37,9 +35,14 @@ class App extends Component {
   }
 }
 
-function mapStateToProps( { posts, categories }) {
+function mapStateToProps( { posts, categories, settings }) {
   return {
-    loadingData:  !posts || !categories
+    loadingData:  !settings.systemLoaded
   }
 }
-export default withRouter(connect(mapStateToProps)(App));
+const mapDispatchToProps = dispatch  => { 
+  return { 
+    initApp: () => dispatch(handleInitialData())
+  }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
