@@ -9,6 +9,7 @@ import NewComment from '../components/NewComment';
 import { Redirect } from 'react-router-dom'
 import { handleDeletePost } from '../actions/posts';
 import NotFound from './NotFound';
+import PostDeleted from './PostDeleted';
 
 class PostPage extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class PostPage extends Component {
         const { id, commentIds, post, category } = this.props
 
         if (!post || post.deleted) {
-            return <Redirect to='/' />
+            return <PostDeleted />
         }
 
         if (post.category !== category) {

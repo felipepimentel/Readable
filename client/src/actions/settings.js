@@ -5,7 +5,9 @@ export const INIT_SYSTEM = 'INIT_SYSTEM'
 export function handleSortList(sortBy) {
     return {
         type: SORT_LIST,
-        sortBy: sortBy
+        settings: {
+            sortBy: sortBy
+        }
     }
 }
 

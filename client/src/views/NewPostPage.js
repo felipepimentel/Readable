@@ -5,6 +5,7 @@ import { handleAddPost, handleUpdatePost } from '../actions/posts';
 import { Row, Col } from 'antd';
 import CategoryList from '../components/CategoryList';
 import { createUUID } from './../utils/helpers';
+import PostDeleted from './PostDeleted';
 
 class NewPostPage extends Component {
   state = {
@@ -85,6 +86,12 @@ class NewPostPage extends Component {
   }
   render() {
     const { text, title, category, toHome } = this.state
+    const { post } = this.props
+
+    if (!post || post.deleted) {
+      return <PostDeleted />
+    }
+
 
     if (toHome === true) {
       return <Redirect to='/' />

@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import './App.css';
 import NewPostPage from './../views/NewPostPage';
 import settings from './../reducers/settings';
+import PostDeleted from './../views/PostDeleted';
 
 class App extends Component {
   componentDidMount() {
@@ -28,6 +29,7 @@ class App extends Component {
               <Route path='/new-post' component={NewPostPage} />
               <Route path='/:category/:id' component={PostPage} />
               <Route path='/:category' component={Home} />
+              <Route path='/post-deleted' component={PostDeleted} />
               <Route component={NotFound} />
             </Switch>
           </LayoutDefault>}
