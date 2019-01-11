@@ -69,13 +69,12 @@ class NewPostPage extends Component {
     let { id } = this.props
     const isNew = true
 
-    if (isNew)
+    if (!id) {
       id = createUUID()
-
-    if (isNew)
       dispatch(handleAddPost(title, text, category, id))
-    else 
+    } else {
       dispatch(handleUpdatePost(title, text, category, id))
+    }
 
     this.setState(() => ({
       title: '',
