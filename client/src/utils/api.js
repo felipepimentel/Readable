@@ -30,7 +30,7 @@ export function getPostDetails(id) {
   );
 }
 
-export const getPostsByCetegory = category =>
+export const getPostsByCategory = category =>
   fetch(`${api}/${category}/posts`, { headers })
     .then(res => res.json())
     .then(res => normalizePosts(res));

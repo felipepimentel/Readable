@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Select } from 'antd';
+import { handleSortPost } from '../actions/posts';
 const { Option } = Select
 
 
@@ -13,7 +14,8 @@ class SortList extends Component {
     }
 
     handleChange(value) {
-        console.log(`selected ${value}`);
+        const {dispatch }  = this.props
+        dispatch(handleSortPost(value))
     }
 
     handleBlur() {

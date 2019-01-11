@@ -8,6 +8,7 @@ import { PostPage } from './../views/PostPage'
 import { handleInitialData } from '../actions/shared'
 import { connect } from 'react-redux'
 import './App.css';
+import NewPostPage from './../views/NewPostPage';
 
 class App extends Component {
   componentDidMount() {
@@ -25,7 +26,8 @@ class App extends Component {
             <Switch location={this.props.location}>
               <Route exact path='/' component={Home} />
               <Route path='/post/:id' component={PostPage} />
-              <Route path='/new-post' component={PostPage} />
+              <Route path='/edit-post/:id' component={NewPostPage} />
+              <Route path='/new-post' component={NewPostPage} />
               <Route component={NotFound} />
             </Switch>
           </LayoutDefault>}
